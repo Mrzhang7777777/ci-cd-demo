@@ -34,13 +34,15 @@
 
 ## T003 初始化后端工程
 
+- 状态：已完成
 - 目标：创建 FastAPI + uv + Pydantic 后端骨架
 - 产出：
   - `backend/` 基础目录
   - 应用入口
 - 验证：
-  - 本地可启动
-  - OpenAPI 文档可访问
+  - Win11 上执行 `uv sync --default-index https://pypi.org/simple`
+  - Win11 上执行 `uv run uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload`
+  - 访问 `http://127.0.0.1:8000/docs`
 
 ## T004 实现最小接口
 
