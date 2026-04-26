@@ -14,7 +14,7 @@ async function loadHello(): Promise<void> {
   error.value = "";
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/hello");
+    const response = await fetch("/api/hello");
 
     if (!response.ok) {
       throw new Error(`request failed: ${response.status}`);

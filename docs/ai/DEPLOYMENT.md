@@ -66,9 +66,13 @@ Docker Host 主要用于：
 - `frontend` 使用 `build: ./frontend`
 - `frontend` 容器通过挂载 `./nginx/nginx.conf` 启用统一入口与反代规则
 - `frontend` 对外暴露 `8080:80`
-- `backend` 临时对外暴露 `8000:8000`
+- `backend` 只在容器内部监听 `8000`
 
-之所以当前仍暴露 `backend` 的 8000 端口，是因为前端代码此阶段仍固定请求 `http://127.0.0.1:8000/api/hello`。虽然 Nginx 已经准备了 `/api/` 和 `/health` 代理，但前端彻底切到相对路径或统一入口方案要留到后续任务处理。
+当前 Compose 联调链路已统一收口到 Nginx 入口：
+
+- 浏览器访问 `http://127.0.0.1:8080`
+- 前端通过相对路径请求 `/api/hello`
+- Nginx 将 `/api/` 和 `/health` 代理到 `backend:8000`
 
 ### 2.4 Docker Host 服务关系
 
@@ -78,8 +82,7 @@ Docker Host 主要用于：
 - 当前 T007 阶段仅验证前端静态文件可由 Nginx 镜像独立提供服务
 - T008 已准备 `nginx/nginx.conf`，其中 `/api/` 和 `/health` 默认代理到 `backend:8000`
 - `backend` 这个主机名依赖未来 T009 中的 Docker Compose service name
-- T009 验证阶段为了兼容当前前端固定请求地址，临时暴露 backend 的宿主机端口
-- 当前前端固定请求地址和统一路径收口将在 T009 联调时一起落地验证
+- T009 已将前端请求切到相对路径，并通过 Nginx 统一入口完成联调
 
 ## 3. 服务器部署思路
 
