@@ -45,6 +45,12 @@ Docker Host 主要用于：
 - `docker run --rm -p 8000:8000 ci-cd-demo-backend`
 - 验证 `http://127.0.0.1:8000/docs`
 
+补充说明：
+
+- 当前后端镜像会从 `ghcr.io/astral-sh/uv` 拉取官方 `uv` 二进制
+- 如果 Docker Host 拉取 `ghcr.io` 仍然很慢，问题通常在 Docker daemon 的出网链路
+- 这种情况下可能仍需要为 Docker daemon 配置代理或镜像加速，而不是回退到 `pip install uv`
+
 前端 Dockerfile 单独验证命令也应默认在 Docker Host 执行，例如：
 
 - `docker build -t ci-cd-demo-frontend ./frontend`

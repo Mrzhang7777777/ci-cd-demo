@@ -159,9 +159,11 @@
 - 状态：已决定
 - 决策：
   - T006 阶段在 `backend/Dockerfile` 中使用 `uv sync` 安装依赖
+  - `uv` 二进制改为从 `ghcr.io/astral-sh/uv` 官方镜像复制，不再通过 `pip install uv` 安装
   - 运行时默认命令为 `uvicorn app.main:app --host 0.0.0.0 --port 8000`
 - 原因：
   - 保持与本项目的 `uv` 依赖管理方式一致
+  - 避免 Docker 构建阶段卡在通过 PyPI 慢速下载 `uv`
   - 运行命令直接、清晰，便于后续接入 Compose 和容器健康检查
   - 当前后端是最小应用，暂不需要更复杂的进程管理
 
