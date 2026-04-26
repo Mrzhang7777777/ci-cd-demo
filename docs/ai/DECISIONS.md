@@ -263,3 +263,16 @@
 - 原因：
   - Docker / GHCR 镜像名要求小写
   - 避免因仓库所有者名称大小写导致 workflow 推送失败
+
+## D027 基础 CI 与 GHCR 镜像发布已验证通过
+
+- 状态：已记录
+- 记录：
+  - `ci-frontend` 已通过
+  - `ci-backend` 已通过
+  - `docker-release` 已通过
+  - GitHub Packages 已生成：
+    - `ci-cd-demo-backend`
+    - `ci-cd-demo-frontend`
+- 说明：
+  - 当前项目已经完成“基础 CI 校验 + GHCR 镜像构建与推送”的最小闭环

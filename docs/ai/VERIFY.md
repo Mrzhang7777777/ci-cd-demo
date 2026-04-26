@@ -118,3 +118,48 @@ curl http://127.0.0.1:8080/api/hello
 - 写入真实凭据
 - 写入真实服务器信息
 - 在 Win11 本地注入这些变量启动项目
+
+## 5. GitHub Actions 与 Packages 验证
+
+当前阶段除了本地和 Docker Host 验证，还应确认 GitHub 上的 CI/CD 结果。
+
+### 5.1 GitHub Actions 页面检查
+
+进入仓库的 `Actions` 页面后，重点查看以下 workflow：
+
+- `ci-frontend`
+- `ci-backend`
+- `docker-release`
+
+当前已确认通过的结果：
+
+- `ci-frontend` 通过
+- `ci-backend` 通过
+- `docker-release` 通过
+
+检查时应重点确认：
+
+- 触发分支是否为 `main`
+- workflow 最终状态是否为成功
+- `docker-release` 是否执行到镜像推送完成
+
+### 5.2 GitHub Packages / GHCR 检查
+
+进入仓库或账号下的 `Packages` 区域，确认是否已经生成以下镜像包：
+
+- `ci-cd-demo-backend`
+- `ci-cd-demo-frontend`
+
+检查时可重点确认：
+
+- 包名称是否正确
+- 是否能看到 `latest`
+- 是否能看到 `sha-<7位提交哈希>` 形式的标签
+
+### 5.3 当前阶段的验证结论
+
+当前最小 CI/CD 链路已确认：
+
+- 基础 CI 可通过
+- 镜像可由 GitHub Actions 构建
+- 镜像可成功推送到 GHCR

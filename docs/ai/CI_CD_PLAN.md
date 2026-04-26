@@ -90,6 +90,17 @@
     - `latest`
     - `sha-<7位提交哈希>`
 
+当前已确认的结果：
+
+- `docker-release` 已在 GitHub Actions 成功通过
+- GHCR / GitHub Packages 已成功生成：
+  - `ci-cd-demo-backend`
+  - `ci-cd-demo-frontend`
+- 当前基础 CI 状态：
+  - `ci-frontend` 通过
+  - `ci-backend` 通过
+  - `docker-release` 通过
+
 建议步骤：
 
 1. 登录镜像仓库
