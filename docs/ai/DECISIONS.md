@@ -203,3 +203,13 @@
   - 这样可以把 Docker Compose 联调链路统一收口到 Nginx 单入口
   - 容器间通信通过 `backend` service name 完成，更接近后续部署形态
   - 避免为了前端固定地址而额外暴露 backend 宿主机端口
+
+## D022 T009 已在 Ubuntu VM Docker Host 验证通过
+
+- 状态：已记录
+- 记录：
+  - 已执行 `docker compose up --build`
+  - `http://127.0.0.1:8080/api/hello` 返回 `{"message":"hello from backend"}`
+  - `http://127.0.0.1:8080/health` 返回 `{"status":"ok"}`
+- 说明：
+  - 当前最小 Docker Compose 联调链路已在 Ubuntu VM Docker Host 验证通过

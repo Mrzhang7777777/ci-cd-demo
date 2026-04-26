@@ -109,13 +109,14 @@
 
 ## T009 编写 Docker Host Compose 验证方案
 
-- 状态：已创建，待 Docker Host 验证
+- 状态：已完成
 - 目标：在 Docker Host 上通过 Compose 启动完整链路
 - 产出：
   - `docker-compose.yml` 或等效文件
   - Docker Host 验证说明
 - 验证：
   - 在 Ubuntu VM 或云服务器执行 `docker compose up --build`
+  - 已在 Ubuntu VM Docker Host 验证通过
   - 访问 `http://127.0.0.1:8080`
   - 访问 `http://127.0.0.1:8080/health`
   - 访问 `http://127.0.0.1:8080/api/hello`

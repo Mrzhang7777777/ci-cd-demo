@@ -147,6 +147,13 @@ Docker Host 主要用于：
 - 验证 `http://127.0.0.1:8080/api/hello`
 - 如需清理，执行 `docker compose down`
 
+本次已确认的 Ubuntu VM Docker Host 验证结果：
+
+- 执行命令：`docker compose up --build`
+- `http://127.0.0.1:8080/api/hello` 返回 `{"message":"hello from backend"}`
+- `http://127.0.0.1:8080/health` 返回 `{"status":"ok"}`
+- 说明当前最小 Compose 联调链路已经打通
+
 ## 6. 镜像策略
 
 建议每个核心服务独立镜像：
