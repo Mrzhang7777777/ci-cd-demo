@@ -147,19 +147,27 @@
 
 ## T012 建立前端 CI
 
+- 状态：已完成
 - 目标：前端代码提交后可自动执行基础检查与构建
 - 产出：
   - GitHub Actions workflow
 - 验证：
-  - 提交或 PR 可触发
+  - 已创建 `.github/workflows/ci-frontend.yml`
+  - `push` 和 `pull_request` 到 `main` 时可触发
+  - 执行 `npm ci`
+  - 执行 `npm run build`
 
 ## T013 建立后端 CI
 
+- 状态：已完成
 - 目标：后端代码提交后可自动执行基础检查与构建
 - 产出：
   - GitHub Actions workflow
 - 验证：
-  - 提交或 PR 可触发
+  - 已创建 `.github/workflows/ci-backend.yml`
+  - `push` 和 `pull_request` 到 `main` 时可触发
+  - 执行 `uv sync --frozen --no-dev`
+  - 执行 `uv run python -c "from app.main import app; print(app.title)"`
 
 ## T014 建立镜像构建与推送流程
 

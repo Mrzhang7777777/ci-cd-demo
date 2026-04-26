@@ -37,6 +37,23 @@
 - 每次提交都能自动执行最小检查
 - 保证主分支不会频繁进入不可构建状态
 
+当前已完成的基础 CI：
+
+- `ci-frontend`
+  - 触发：`push` / `pull_request` 到 `main`
+  - 环境：`Node 22`
+  - 步骤：
+    - `npm ci`
+    - `npm run build`
+
+- `ci-backend`
+  - 触发：`push` / `pull_request` 到 `main`
+  - 环境：`Python 3.12`
+  - 步骤：
+    - 安装 `uv`
+    - `uv sync --frozen --no-dev`
+    - `uv run python -c "from app.main import app; print(app.title)"`
+
 建议步骤：
 
 1. 拉取代码
@@ -93,8 +110,8 @@
 - 触发：PR、push
 - 内容：
   - 安装前端依赖
-  - 类型检查
   - 构建检查
+  - 当前已建立
 
 ### 3.2 `ci-backend`
 
@@ -102,7 +119,7 @@
 - 内容：
   - 安装后端依赖
   - 基础校验
-  - 可选测试
+  - 当前已建立
 
 ### 3.3 `docker-release`
 
