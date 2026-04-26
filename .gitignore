@@ -1,0 +1,32 @@
+@"
+# dependencies
+node_modules/
+frontend/node_modules/
+
+# build outputs
+dist/
+frontend/dist/
+
+# env files
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+backend/.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# logs
+*.log
+npm-debug.log*
+"@ | Set-Content .gitignore -Encoding UTF8
