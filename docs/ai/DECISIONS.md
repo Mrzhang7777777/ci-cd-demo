@@ -244,8 +244,8 @@
 - 决策：
   - T014 阶段使用 GitHub Actions 默认 `GITHUB_TOKEN` 登录 GHCR
   - 推送镜像到：
-    - `ghcr.io/${{ github.repository_owner }}/ci-cd-demo-backend`
-    - `ghcr.io/${{ github.repository_owner }}/ci-cd-demo-frontend`
+    - `ghcr.io/mrzhang7777777/ci-cd-demo-backend`
+    - `ghcr.io/mrzhang7777777/ci-cd-demo-frontend`
   - 标签策略采用：
     - `latest`
     - `sha-<7位提交哈希>`
@@ -253,3 +253,13 @@
   - GHCR 与 GitHub Actions 集成最直接
   - `latest` 适合跟踪主分支最新成功构建
   - 短哈希标签便于回溯到具体提交版本
+
+## D026 GHCR 镜像名中的 namespace 必须使用小写
+
+- 状态：已决定
+- 决策：
+  - `docker-release` workflow 中的 GHCR namespace 固定为小写 `mrzhang7777777`
+  - 不直接使用可能包含大写字母的 `github.repository_owner`
+- 原因：
+  - Docker / GHCR 镜像名要求小写
+  - 避免因仓库所有者名称大小写导致 workflow 推送失败
