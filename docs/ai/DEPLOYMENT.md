@@ -101,6 +101,24 @@ Docker Host 主要用于：
 - 拉取最新镜像
 - 启动或重启容器
 
+### 3.1.1 服务器目录建议
+
+建议服务器部署目录使用：
+
+```text
+/opt/ci-cd-demo/
+  compose.prod.yml
+  .env
+  nginx/
+    nginx.conf
+```
+
+当前已准备的对应文件：
+
+- [compose.prod.yml](/D:/Users/RX/Desktop/Agent/ci-cd-demo/compose.prod.yml)
+- [deploy/.env.prod.example](/D:/Users/RX/Desktop/Agent/ci-cd-demo/deploy/.env.prod.example)
+- [nginx/nginx.conf](/D:/Users/RX/Desktop/Agent/ci-cd-demo/nginx/nginx.conf)
+
 ### 3.2 服务器不做的事
 
 - 不拉源码仓库
@@ -127,7 +145,31 @@ Docker Host 主要用于：
 5. 服务器执行 `docker compose pull`
 6. 服务器执行 `docker compose up -d`
 
-## 5. Compose 文件规划
+## 5. 生产部署 Compose 方案
+
+当前已新增生产部署用 Compose：
+
+- [compose.prod.yml](/D:/Users/RX/Desktop/Agent/ci-cd-demo/compose.prod.yml)
+
+它与 Docker Host 验证用 `docker-compose.yml` 的区别是：
+
+- `compose.prod.yml` 只使用 GHCR 镜像
+- 不使用 `build`
+- `backend` 不映射宿主机端口
+- `frontend` 对外暴露 `8080:80`
+- 继续挂载 `./nginx/nginx.conf:/etc/nginx/nginx.conf:ro`
+
+当前使用的镜像为：
+
+- `ghcr.io/mrzhang7777777/ci-cd-demo-backend:latest`
+- `ghcr.io/mrzhang7777777/ci-cd-demo-frontend:latest`
+
+说明：
+
+- `backend` 只在 Compose 网络内部监听 `8000`
+- `frontend` 通过 Nginx 代理到 `backend:8000`
+- 这符合服务器只做 `pull + up` 的目标
+## 6. Compose 文件规划
 
 当前建议区分两类 Compose：
 
@@ -154,7 +196,17 @@ Docker Host 主要用于：
 - `http://127.0.0.1:8080/health` 返回 `{"status":"ok"}`
 - 说明当前最小 Compose 联调链路已经打通
 
-## 6. 镜像策略
+当前服务器手动部署命令：
+
+```bash
+docker login ghcr.io
+docker compose -f compose.prod.yml pull
+docker compose -f compose.prod.yml up -d
+docker compose -f compose.prod.yml ps
+curl http://127.0.0.1:8080/health
+```
+
+## 7. 镜像策略
 
 建议每个核心服务独立镜像：
 
@@ -176,7 +228,7 @@ Nginx 是否独立镜像有两种实现方向：
 - T009 当前采用在 Compose 中挂载该配置到前端容器
 - 这样可以在不重做前端镜像结构的前提下完成最小联调
 
-## 7. 环境变量原则
+## 8. 环境变量原则
 
 - 本地和服务器都通过环境变量注入配置
 - Win11 开发机不依赖 Docker 环境变量启动容器
@@ -184,7 +236,18 @@ Nginx 是否独立镜像有两种实现方向：
 - 后端变量尽量保持最少
 - 不把密钥写死在仓库
 
-## 8. 低配服务器注意事项
+服务器部署阶段当前预留的镜像相关变量见：
+
+- [deploy/.env.prod.example](/D:/Users/RX/Desktop/Agent/ci-cd-demo/deploy/.env.prod.example)
+
+当前预留变量名：
+
+- `REGISTRY`
+- `IMAGE_NAMESPACE`
+- `BACKEND_IMAGE`
+- `FRONTEND_IMAGE`
+
+## 9. 低配服务器注意事项
 
 针对 2 核 2G 服务器，建议：
 
@@ -194,12 +257,10 @@ Nginx 是否独立镜像有两种实现方向：
 - 避免在运行机上做构建
 - 预留一定内存给 Docker 和系统本身
 
-## 9. 后续补充项
+## 10. 后续补充项
 
 后续落地部署时应补充：
 
-- Ubuntu VM 初始化步骤
-- 服务器目录结构
 - 环境变量示例
 - 镜像命名规则
 - 部署命令清单

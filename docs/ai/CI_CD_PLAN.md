@@ -115,6 +115,18 @@
 
 - 服务器只拉取镜像并更新服务
 
+当前已准备的部署基础文件：
+
+- `compose.prod.yml`
+- `deploy/.env.prod.example`
+- `nginx/nginx.conf`
+
+当前部署约束已经明确：
+
+- 服务器不使用 `build`
+- 服务器只拉 GHCR 镜像
+- 服务器通过 `docker compose -f compose.prod.yml pull` 和 `up -d` 运行服务
+
 建议步骤：
 
 1. GitHub Actions 连接服务器
@@ -164,6 +176,7 @@
   - 拉取镜像
   - 重启容器
   - 健康检查
+  - 当前基础部署文件已准备，自动部署 workflow 仍未建立
 
 ## 4. 推荐推进顺序
 

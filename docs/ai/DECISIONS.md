@@ -276,3 +276,19 @@
     - `ci-cd-demo-frontend`
 - 说明：
   - 当前项目已经完成“基础 CI 校验 + GHCR 镜像构建与推送”的最小闭环
+
+## D028 服务器部署阶段使用独立的 compose.prod.yml，只通过拉镜像运行
+
+- 状态：已决定
+- 决策：
+  - T015 阶段创建 `compose.prod.yml`
+  - 服务器部署使用 GHCR 镜像：
+    - `ghcr.io/mrzhang7777777/ci-cd-demo-backend:latest`
+    - `ghcr.io/mrzhang7777777/ci-cd-demo-frontend:latest`
+  - 服务器部署不使用 `build`
+  - `backend` 只在 Compose 网络内部监听 `8000`
+  - `frontend` 继续挂载 `./nginx/nginx.conf:/etc/nginx/nginx.conf:ro`
+- 原因：
+  - 保持服务器职责最小化
+  - 与“服务器只负责 pull 镜像和启动容器”的目标一致
+  - 避免把源码构建压力放到低配服务器上
