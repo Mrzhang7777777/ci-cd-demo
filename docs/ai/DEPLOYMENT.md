@@ -45,6 +45,12 @@ Docker Host 主要用于：
 - `docker run --rm -p 8000:8000 ci-cd-demo-backend`
 - 验证 `http://127.0.0.1:8000/docs`
 
+前端 Dockerfile 单独验证命令也应默认在 Docker Host 执行，例如：
+
+- `docker build -t ci-cd-demo-frontend ./frontend`
+- `docker run --rm -p 8080:80 ci-cd-demo-frontend`
+- 验证 `http://127.0.0.1:8080`
+
 ### 2.3 Docker Host Compose 目标
 
 在 Docker Host 执行 `docker compose up` 后，至少应具备：
@@ -59,6 +65,8 @@ Docker Host 主要用于：
 - Nginx 对外暴露端口
 - Backend 仅在内部网络提供服务
 - Frontend 产物由 Nginx 托管，或由前端镜像构建并复制到 Nginx
+- 当前 T007 阶段仅验证前端静态文件可由 Nginx 镜像独立提供服务
+- 当前前端仍直接请求 `http://127.0.0.1:8000/api/hello`，统一反代和路径收口留到 T008/T009 处理
 
 ## 3. 服务器部署思路
 

@@ -84,13 +84,15 @@
 
 ## T007 编写前端 Dockerfile
 
+- 状态：已创建，待 Docker Host 验证
 - 目标：前端构建产物可由容器化 Nginx 提供服务
 - 产出：
   - `frontend/Dockerfile`
   - 前端构建与静态发布方案
 - 验证：
-  - 镜像能构建
-  - 页面可访问
+  - 在 Ubuntu VM、GitHub Actions 或云服务器执行 `docker build -t ci-cd-demo-frontend ./frontend`
+  - 在 Ubuntu VM、GitHub Actions 或云服务器执行 `docker run --rm -p 8080:80 ci-cd-demo-frontend`
+  - 在 Docker Host 访问 `http://127.0.0.1:8080`
 
 ## T008 编写 Nginx 配置
 
