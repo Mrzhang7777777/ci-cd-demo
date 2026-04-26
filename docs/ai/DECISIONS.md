@@ -303,3 +303,14 @@
   - `/api/hello` 返回 `{"message":"hello from backend"}`
 - 说明：
   - 当前服务器侧生产 Compose 手动部署链路已验证通过
+
+## D030 T016 自动部署阶段先使用 Ubuntu VM 作为学习环境
+
+- 状态：已决定
+- 决策：
+  - `deploy-production` workflow 当前先连接 Ubuntu VM 进行自动部署验证
+  - 远程部署流程保持为 `git pull + docker compose pull + docker compose up -d + 健康检查`
+- 原因：
+  - 先在可控学习环境验证 GitHub Actions 到服务器的完整自动部署链路
+  - 避免一开始就把自动部署直接压到正式云服务器环境
+  - 与当前“服务器不构建镜像，只负责拉镜像和运行容器”的目标一致

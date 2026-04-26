@@ -145,6 +145,43 @@ Docker Host 主要用于：
 5. 服务器执行 `docker compose pull`
 6. 服务器执行 `docker compose up -d`
 
+### 4.1 自动部署流程
+
+当前已建立 GitHub Actions 自动部署 workflow：
+
+- `.github/workflows/deploy-production.yml`
+
+触发方式：
+
+- 手动 `workflow_dispatch`
+- `docker-release` 成功完成后自动触发
+
+使用的 GitHub Secrets：
+
+- `SERVER_HOST`
+- `SERVER_USER`
+- `SERVER_PORT`
+- `SERVER_SSH_KEY`
+- `DEPLOY_PATH`
+
+远程服务器执行命令：
+
+```bash
+cd "$DEPLOY_PATH"
+git pull
+docker compose -f compose.prod.yml pull
+docker compose -f compose.prod.yml up -d
+docker compose -f compose.prod.yml ps
+curl -f http://127.0.0.1:8080/health
+curl -f http://127.0.0.1:8080/api/hello
+```
+
+说明：
+
+- 服务器仍然不执行源码构建
+- 自动部署阶段只拉 GHCR 镜像并重启服务
+- 当前 T016 先以 Ubuntu VM 作为学习环境验证目标
+
 ## 5. 生产部署 Compose 方案
 
 当前已新增生产部署用 Compose：
@@ -223,6 +260,15 @@ curl http://127.0.0.1:8080/health
   - `/api/hello` 返回 `{"message":"hello from backend"}`
   - backend 未映射宿主机端口，只在 Compose 网络内暴露 `8000`
   - frontend 映射 `8080:80`
+
+后续自动部署验证通过时，应重点检查：
+
+- GitHub Actions 中 `deploy-production` 是否成功执行
+- 服务器侧是否成功执行 `git pull`
+- `docker compose -f compose.prod.yml pull` 是否拉到最新 GHCR 镜像
+- `docker compose -f compose.prod.yml up -d` 后容器状态是否正常
+- `curl -f http://127.0.0.1:8080/health` 是否返回成功
+- `curl -f http://127.0.0.1:8080/api/hello` 是否返回成功
 
 ## 7. 镜像策略
 

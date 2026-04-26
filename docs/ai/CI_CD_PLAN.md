@@ -150,6 +150,30 @@
 - 服务器不在部署时构建镜像
 - 服务器只负责 `pull` 镜像与 `docker compose up -d`
 
+当前已建立的自动部署流程：
+
+- `deploy-production`
+  - 触发：
+    - 手动 `workflow_dispatch`
+    - `docker-release` workflow 成功完成后自动触发
+  - Secrets：
+    - `SERVER_HOST`
+    - `SERVER_USER`
+    - `SERVER_PORT`
+    - `SERVER_SSH_KEY`
+    - `DEPLOY_PATH`
+  - 远程执行：
+    - `cd $DEPLOY_PATH`
+    - `git pull`
+    - `docker compose -f compose.prod.yml pull`
+    - `docker compose -f compose.prod.yml up -d`
+    - `docker compose -f compose.prod.yml ps`
+    - `curl -f http://127.0.0.1:8080/health`
+    - `curl -f http://127.0.0.1:8080/api/hello`
+  - 当前状态：
+    - workflow 已创建
+    - 待 GitHub Actions 实际触发验证
+
 ## 3. Workflow 规划建议
 
 建议至少包含以下 workflow：
@@ -180,13 +204,14 @@
 
 ### 3.4 `deploy-production`
 
-- 触发：手动触发，或主分支镜像构建成功后触发
+- 触发：手动触发，或 `docker-release` 成功后触发
 - 内容：
   - SSH 到服务器
   - 拉取镜像
   - 重启容器
   - 健康检查
-  - 当前基础部署文件已准备，自动部署 workflow 仍未建立
+  - 当前已建立 `.github/workflows/deploy-production.yml`
+  - 当前先部署到 Ubuntu VM 学习环境，后续再迁移到正式云服务器
 
 ## 4. 推荐推进顺序
 

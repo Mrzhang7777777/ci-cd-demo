@@ -198,12 +198,21 @@
 
 ## T016 建立自动部署流程
 
+- 状态：已创建，待 GitHub Actions 验证
 - 目标：GitHub Actions 在满足条件时触发部署
 - 产出：
   - 部署 workflow
   - 服务器拉镜像与重启服务脚本或命令方案
 - 验证：
-  - 推送主分支后可自动更新服务器服务
+  - 已创建 `.github/workflows/deploy-production.yml`
+  - 支持 `workflow_dispatch`
+  - 在 `docker-release` 成功后可自动触发
+  - 通过 SSH 登录服务器执行 `git pull`
+  - 执行 `docker compose -f compose.prod.yml pull`
+  - 执行 `docker compose -f compose.prod.yml up -d`
+  - 执行健康检查：
+    - `curl -f http://127.0.0.1:8080/health`
+    - `curl -f http://127.0.0.1:8080/api/hello`
 
 ## T017 编写回滚与故障处理文档
 
