@@ -72,13 +72,15 @@
 
 ## T006 编写后端 Dockerfile
 
+- 状态：已创建，待 Docker Host 验证
 - 目标：后端可独立构建容器镜像
 - 产出：
   - `backend/Dockerfile`
   - 必要的构建忽略文件
 - 验证：
-  - 镜像能构建
-  - 容器能启动
+  - 在 Ubuntu VM、GitHub Actions 或云服务器执行 `docker build -t ci-cd-demo-backend ./backend`
+  - 在 Ubuntu VM、GitHub Actions 或云服务器执行 `docker run --rm -p 8000:8000 ci-cd-demo-backend`
+  - 在 Docker Host 访问 `http://127.0.0.1:8000/docs`
 
 ## T007 编写前端 Dockerfile
 

@@ -39,6 +39,12 @@ Docker Host 主要用于：
 - 验证前后端容器联通
 - 验证 Nginx 代理链路
 
+后端 Dockerfile 单独验证命令应默认在 Docker Host 执行，例如：
+
+- `docker build -t ci-cd-demo-backend ./backend`
+- `docker run --rm -p 8000:8000 ci-cd-demo-backend`
+- 验证 `http://127.0.0.1:8000/docs`
+
 ### 2.3 Docker Host Compose 目标
 
 在 Docker Host 执行 `docker compose up` 后，至少应具备：
