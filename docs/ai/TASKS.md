@@ -171,12 +171,16 @@
 
 ## T014 建立镜像构建与推送流程
 
+- 状态：已完成
 - 目标：GitHub Actions 自动构建前后端镜像并推送仓库
 - 产出：
   - 镜像构建 workflow
   - 标签策略初版
 - 验证：
-  - 仓库中可看到镜像
+  - 已创建 `.github/workflows/docker-release.yml`
+  - `push` 到 `main` 和 `workflow_dispatch` 时可触发
+  - 自动构建并推送 backend/frontend 镜像到 GHCR
+  - 使用 `latest` 与 `sha-<7位提交哈希>` 标签
 
 ## T015 准备服务器部署目录与 Compose
 

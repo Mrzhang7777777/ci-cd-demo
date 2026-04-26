@@ -237,3 +237,19 @@
   - 先保证主分支的基础可构建性
   - 避免过早把镜像构建和服务器部署耦合进同一个阶段
   - 有利于把 CI 问题和 CD 问题分开定位
+
+## D025 镜像发布使用 GHCR，并采用 latest + 短哈希标签
+
+- 状态：已决定
+- 决策：
+  - T014 阶段使用 GitHub Actions 默认 `GITHUB_TOKEN` 登录 GHCR
+  - 推送镜像到：
+    - `ghcr.io/${{ github.repository_owner }}/ci-cd-demo-backend`
+    - `ghcr.io/${{ github.repository_owner }}/ci-cd-demo-frontend`
+  - 标签策略采用：
+    - `latest`
+    - `sha-<7位提交哈希>`
+- 原因：
+  - GHCR 与 GitHub Actions 集成最直接
+  - `latest` 适合跟踪主分支最新成功构建
+  - 短哈希标签便于回溯到具体提交版本

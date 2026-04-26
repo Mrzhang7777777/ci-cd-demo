@@ -74,6 +74,22 @@
 - 镜像构建优先由 GitHub Actions 完成
 - 不把 Win11 开发机作为镜像构建必需节点
 
+当前已完成的镜像发布流程：
+
+- `docker-release`
+  - 触发：`push` 到 `main`，或手动 `workflow_dispatch`
+  - 权限：
+    - `contents: read`
+    - `packages: write`
+  - 登录方式：
+    - 使用 GitHub Actions 默认 `GITHUB_TOKEN` 登录 GHCR
+  - 推送镜像：
+    - `ghcr.io/${{ github.repository_owner }}/ci-cd-demo-backend`
+    - `ghcr.io/${{ github.repository_owner }}/ci-cd-demo-frontend`
+  - 标签策略：
+    - `latest`
+    - `sha-<7位提交哈希>`
+
 建议步骤：
 
 1. 登录镜像仓库
@@ -127,6 +143,7 @@
 - 内容：
   - 构建前后端镜像
   - 推送镜像
+  - 当前已建立
 
 ### 3.4 `deploy-production`
 
