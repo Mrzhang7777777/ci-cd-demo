@@ -163,3 +163,41 @@ curl http://127.0.0.1:8080/api/hello
 - 基础 CI 可通过
 - 镜像可由 GitHub Actions 构建
 - 镜像可成功推送到 GHCR
+
+## 6. 生产 Compose 验证
+
+适用场景：
+
+- Ubuntu VM
+- 服务器手动部署验证
+
+执行命令：
+
+```bash
+git pull
+docker compose -f compose.prod.yml pull
+docker compose -f compose.prod.yml up -d
+docker compose -f compose.prod.yml ps
+curl http://127.0.0.1:8080/health
+curl http://127.0.0.1:8080/api/hello
+```
+
+成功标准：
+
+- `compose.prod.yml` 能成功从 GHCR 拉取以下镜像：
+  - `ghcr.io/mrzhang7777777/ci-cd-demo-backend:latest`
+  - `ghcr.io/mrzhang7777777/ci-cd-demo-frontend:latest`
+- `http://127.0.0.1:8080/health` 返回：
+
+```json
+{"status":"ok"}
+```
+
+- `http://127.0.0.1:8080/api/hello` 返回：
+
+```json
+{"message":"hello from backend"}
+```
+
+- `backend` 不映射宿主机端口
+- `frontend` 映射 `8080:80`

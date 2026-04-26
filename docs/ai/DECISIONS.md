@@ -292,3 +292,14 @@
   - 保持服务器职责最小化
   - 与“服务器只负责 pull 镜像和启动容器”的目标一致
   - 避免把源码构建压力放到低配服务器上
+
+## D029 T015 已在 Ubuntu VM 上手动验证通过
+
+- 状态：已记录
+- 记录：
+  - 已执行 `docker compose -f compose.prod.yml pull`
+  - 已执行 `docker compose -f compose.prod.yml up -d`
+  - `/health` 返回 `{"status":"ok"}`
+  - `/api/hello` 返回 `{"message":"hello from backend"}`
+- 说明：
+  - 当前服务器侧生产 Compose 手动部署链路已验证通过

@@ -206,6 +206,24 @@ docker compose -f compose.prod.yml ps
 curl http://127.0.0.1:8080/health
 ```
 
+本次已确认的 Ubuntu VM 生产 Compose 手动验证结果：
+
+- 执行命令：
+  - `git pull`
+  - `docker compose -f compose.prod.yml pull`
+  - `docker compose -f compose.prod.yml up -d`
+  - `docker compose -f compose.prod.yml ps`
+  - `curl http://127.0.0.1:8080/health`
+  - `curl http://127.0.0.1:8080/api/hello`
+- 验证结果：
+  - `compose.prod.yml` 成功从 GHCR 拉取 backend/frontend 镜像
+  - backend 镜像：`ghcr.io/mrzhang7777777/ci-cd-demo-backend:latest`
+  - frontend 镜像：`ghcr.io/mrzhang7777777/ci-cd-demo-frontend:latest`
+  - `/health` 返回 `{"status":"ok"}`
+  - `/api/hello` 返回 `{"message":"hello from backend"}`
+  - backend 未映射宿主机端口，只在 Compose 网络内暴露 `8000`
+  - frontend 映射 `8080:80`
+
 ## 7. 镜像策略
 
 建议每个核心服务独立镜像：

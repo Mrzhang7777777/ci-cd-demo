@@ -127,6 +127,16 @@
 - 服务器只拉 GHCR 镜像
 - 服务器通过 `docker compose -f compose.prod.yml pull` 和 `up -d` 运行服务
 
+当前已确认的手动部署结果：
+
+- 已在 Ubuntu VM 上执行：
+  - `docker compose -f compose.prod.yml pull`
+  - `docker compose -f compose.prod.yml up -d`
+- 已验证：
+  - `http://127.0.0.1:8080/health` 返回 `{"status":"ok"}`
+  - `http://127.0.0.1:8080/api/hello` 返回 `{"message":"hello from backend"}`
+- 说明服务器侧“pull + up -d”手动验证已通过
+
 建议步骤：
 
 1. GitHub Actions 连接服务器

@@ -184,7 +184,7 @@
 
 ## T015 准备服务器部署目录与 Compose
 
-- 状态：已完成
+- 状态：已验证通过
 - 目标：定义服务器部署所需的最小文件与目录结构
 - 产出：
   - 服务器部署用 Compose 文件
@@ -194,6 +194,7 @@
   - 已创建 `deploy/.env.prod.example`
   - 服务器可执行 `docker compose -f compose.prod.yml pull`
   - 服务器可执行 `docker compose -f compose.prod.yml up -d`
+  - 已在 Ubuntu VM 上手动验证通过
 
 ## T016 建立自动部署流程
 
