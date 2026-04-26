@@ -96,13 +96,16 @@
 
 ## T008 编写 Nginx 配置
 
+- 状态：已创建，待 Docker Host 验证
 - 目标：Nginx 统一对外提供前端与 API 代理
 - 产出：
   - Nginx 配置文件
 - 验证：
-  - `/` 可访问前端
-  - `/api/hello` 可代理到后端
-  - `/health` 可代理到后端
+  - 在 Docker Host 使用 `nginx/nginx.conf`
+  - 未来 T009 的 Compose 中需要存在 service name: `backend`
+  - `/` 可访问前端静态页面
+  - `/api/hello` 可代理到 `backend:8000`
+  - `/health` 可代理到 `backend:8000`
 
 ## T009 编写 Docker Host Compose 验证方案
 
