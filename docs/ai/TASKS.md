@@ -46,12 +46,15 @@
 
 ## T004 实现最小接口
 
+- 状态：已完成
 - 目标：实现 `GET /health` 与 `GET /api/hello`
 - 产出：
   - 后端路由
   - 基础响应模型
 - 验证：
-  - 两个接口都返回预期 JSON
+  - Win11 上执行 `uv run uvicorn app.main:app --host 127.0.0.1 --port 8000`
+  - 访问 `http://127.0.0.1:8000/health`
+  - 访问 `http://127.0.0.1:8000/api/hello`
 
 ## T005 实现前端调用后端
 
