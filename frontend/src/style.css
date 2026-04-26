@@ -48,7 +48,23 @@ body {
 }
 
 h1 {
-  margin: 0;
+  margin: 0 0 20px;
   font-size: clamp(32px, 5vw, 48px);
   line-height: 1.1;
+}
+
+.status-text {
+  margin: 0;
+  font-size: 18px;
+  color: #365066;
+}
+
+.status-success {
+  color: #0f6a46;
+  font-weight: 600;
+}
+
+.status-error {
+  color: #b42318;
+  font-weight: 600;
 }

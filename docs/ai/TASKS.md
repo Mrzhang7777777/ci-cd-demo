@@ -58,12 +58,18 @@
 
 ## T005 实现前端调用后端
 
+- 状态：已实现前端逻辑，待浏览器联调验证
 - 目标：前端页面请求 `/api/hello` 并展示结果
 - 产出：
   - 最小页面交互
   - API 请求封装或最小调用逻辑
 - 验证：
-  - 页面能看到后端返回值
+  - Win11 上先执行 `cd backend`
+  - Win11 上执行 `uv run uvicorn app.main:app --host 127.0.0.1 --port 8000`
+  - Win11 上再执行 `cd frontend`
+  - Win11 上执行 `npm run dev`
+  - 浏览器访问 Vite 开发地址并检查是否显示 `hello from backend`
+  - 如浏览器报跨域错误，则需在后续任务中补充后端 CORS 或开发代理方案
 
 ## T006 编写后端 Dockerfile
 
