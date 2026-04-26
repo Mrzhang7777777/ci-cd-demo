@@ -188,3 +188,15 @@
   - `backend` 是未来 Docker Compose 中最稳定的服务发现方式
   - 当前阶段先固化网关路径和服务命名约定，便于 T009 直接接线
   - 刷新回退逻辑是前端静态站点的基础能力，即使当前页面尚未使用路由，也先作为标准配置保留
+
+## D021 T009 阶段通过 Compose 挂载 nginx 配置，并临时暴露 backend 端口
+
+- 状态：已决定
+- 决策：
+  - T009 的 `docker-compose.yml` 使用 `frontend` 和 `backend` 两个服务
+  - `frontend` 服务挂载 `./nginx/nginx.conf` 到容器内 `/etc/nginx/nginx.conf`
+  - 因当前前端仍固定请求 `http://127.0.0.1:8000/api/hello`，T009 阶段临时暴露 `backend` 的 `8000:8000`
+- 原因：
+  - 这样能在不改前端业务逻辑的前提下完成 Docker Host 最小联调
+  - 同时保留 Nginx 的 `/api/` 与 `/health` 代理能力，便于后续收口
+  - 后续切换到纯统一入口时，可再移除 backend 对宿主机的直接暴露

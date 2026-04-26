@@ -60,14 +60,25 @@ Docker Host 主要用于：
 - 后端健康检查可访问
 - 容器之间通过内部网络通信
 
+当前 T009 的最小 Compose 方案：
+
+- `backend` 使用 `build: ./backend`
+- `frontend` 使用 `build: ./frontend`
+- `frontend` 容器通过挂载 `./nginx/nginx.conf` 启用统一入口与反代规则
+- `frontend` 对外暴露 `8080:80`
+- `backend` 临时对外暴露 `8000:8000`
+
+之所以当前仍暴露 `backend` 的 8000 端口，是因为前端代码此阶段仍固定请求 `http://127.0.0.1:8000/api/hello`。虽然 Nginx 已经准备了 `/api/` 和 `/health` 代理，但前端彻底切到相对路径或统一入口方案要留到后续任务处理。
+
 ### 2.4 Docker Host 服务关系
 
 - Nginx 对外暴露端口
-- Backend 仅在内部网络提供服务
+- 目标形态下 Backend 仅在内部网络提供服务
 - Frontend 产物由 Nginx 托管，或由前端镜像构建并复制到 Nginx
 - 当前 T007 阶段仅验证前端静态文件可由 Nginx 镜像独立提供服务
 - T008 已准备 `nginx/nginx.conf`，其中 `/api/` 和 `/health` 默认代理到 `backend:8000`
 - `backend` 这个主机名依赖未来 T009 中的 Docker Compose service name
+- T009 验证阶段为了兼容当前前端固定请求地址，临时暴露 backend 的宿主机端口
 - 当前前端固定请求地址和统一路径收口将在 T009 联调时一起落地验证
 
 ## 3. 服务器部署思路
@@ -119,6 +130,14 @@ Docker Host 主要用于：
 - Docker Host 验证环境可能保留更多学习与调试配置
 - 服务器应尽量只保留运行必要配置
 
+当前 Docker Host 验证命令：
+
+- `docker compose up --build`
+- 打开 `http://127.0.0.1:8080`
+- 验证 `http://127.0.0.1:8080/health`
+- 验证 `http://127.0.0.1:8080/api/hello`
+- 如需清理，执行 `docker compose down`
+
 ## 6. 镜像策略
 
 建议每个核心服务独立镜像：
@@ -138,7 +157,8 @@ Nginx 是否独立镜像有两种实现方向：
 补充说明：
 
 - 当前已准备独立的 `nginx/nginx.conf`
-- 是否在前端镜像内复制该配置，还是在 Compose 中挂载该配置，留到 T009 一并确定
+- T009 当前采用在 Compose 中挂载该配置到前端容器
+- 这样可以在不重做前端镜像结构的前提下完成最小联调
 
 ## 7. 环境变量原则
 
