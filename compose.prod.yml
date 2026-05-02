@@ -1,3 +1,4 @@
+version: '3'
 services:
   backend:
     image: ghcr.io/mrzhang7777777/ci-cd-demo-backend:latest

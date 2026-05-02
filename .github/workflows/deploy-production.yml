@@ -37,17 +37,16 @@ jobs:
 
             whoami
             echo "PATH: $PATH"
-            export PATH=$PATH:/usr/local/bin:/usr/bin
 
             docker --version
-            docker compose version
+            docker-compose version
 
             cd "$DEPLOY_PATH"
             git pull
 
-            docker compose -f compose.prod.yml pull
-            docker compose -f compose.prod.yml up -d
-            docker compose -f compose.prod.yml ps
+            docker-compose -f compose.prod.yml pull
+            docker-compose -f compose.prod.yml up -d
+            docker-compose -f compose.prod.yml ps
 
             sleep 5
             curl -sf http://127.0.0.1:8080/health || echo "WARN: health check not yet ready"
