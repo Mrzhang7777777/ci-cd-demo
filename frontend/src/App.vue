@@ -17,14 +17,14 @@ async function loadHello(): Promise<void> {
     const response = await fetch("/api/hello");
 
     if (!response.ok) {
-      throw new Error(`request failed: ${response.status}`);
+      throw new Error(`请求失败：${response.status}`);
     }
 
     const data = (await response.json()) as HelloResponse;
     message.value = data.message;
   } catch (err) {
     error.value =
-      err instanceof Error ? err.message : "failed to load backend message";
+      err instanceof Error ? err.message : "无法连接后端服务";
   } finally {
     loading.value = false;
   }
@@ -38,11 +38,11 @@ onMounted(() => {
 <template>
   <main class="app-shell">
     <section class="card">
-      <p class="eyebrow">frontend</p>
-      <h1>ci-cd-demo frontend running</h1>
-      <p v-if="loading" class="status-text">loading backend message...</p>
-      <p v-else-if="error" class="status-text status-error">error: {{ error }}</p>
-      <p v-else class="status-text status-success">{{ message }}</p>
+      <p class="eyebrow">CI/CD 演示项目</p>
+      <h1>自动化部署已就绪</h1>
+      <p v-if="loading" class="status-text">正在连接后端服务...</p>
+      <p v-else-if="error" class="status-text status-error">错误：{{ error }}</p>
+      <p v-else class="status-text status-success">后端响应：{{ message }}</p>
     </section>
   </main>
 </template>
