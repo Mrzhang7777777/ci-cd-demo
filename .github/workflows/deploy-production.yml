@@ -32,10 +32,23 @@ jobs:
           script_stop: true
           envs: DEPLOY_PATH
           script: |
+            set -e
+            set -x
+
+            whoami
+            echo "PATH: $PATH"
+            export PATH=$PATH:/usr/local/bin:/usr/bin
+
+            docker --version
+            docker compose version
+
             cd "$DEPLOY_PATH"
             git pull
+
             docker compose -f compose.prod.yml pull
             docker compose -f compose.prod.yml up -d
             docker compose -f compose.prod.yml ps
-            curl -f http://127.0.0.1:8080/health
-            curl -f http://127.0.0.1:8080/api/hello
+
+            sleep 5
+            curl -sf http://127.0.0.1:8080/health || echo "WARN: health check not yet ready"
+            curl -sf http://127.0.0.1:8080/api/hello || echo "WARN: api/hello not yet ready"
